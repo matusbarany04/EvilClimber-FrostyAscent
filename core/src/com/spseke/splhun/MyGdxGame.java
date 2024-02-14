@@ -82,7 +82,6 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 
 	@Override
 	public void dispose() {
-		// Hey, I actually did some clean up in a code sample!
 		img.dispose();
 		world.dispose();
 	}
