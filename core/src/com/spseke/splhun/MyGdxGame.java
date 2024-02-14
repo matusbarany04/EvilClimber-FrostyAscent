@@ -28,7 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 
 		batch = new SpriteBatch();
 
-		img = new Texture("badlogic.jpg");
+		img = new Texture("matus.gif");
 		sprite = new Sprite(img);
 
 		// Center the sprite in the top/middle of the screen
