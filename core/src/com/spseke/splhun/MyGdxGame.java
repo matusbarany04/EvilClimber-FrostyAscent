@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
 
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 	Sprite sprite;
 	Texture img;
 	public static World world;
-	Body body;
+	public static Body body;
+	Ball ball;
 
 	// Create an array to be filled with the bodies
 // (better don't create a new one every time though)
@@ -39,9 +41,12 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 		batch = new SpriteBatch();
 
 		ground = new Ground(0, Gdx.graphics.getHeight()/2, batch);
+		ball = new Ball(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, 6);
+
 
 		img = new Texture("matus.gif");
 		sprite = new Sprite(img);
+
 
 		// Center the sprite in the top/middle of the screen
 		sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
@@ -66,6 +71,19 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 	public void render() {
 		world.getBodies(bodies);
 
+
+		sprite.setPosition(body.getPosition().x, body.getPosition().y);
+
+		// TOTO neviem či nážžľm teraz treba
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.begin();
+		ground.update();
+		batch.draw(sprite, sprite.getX(), sprite.getY());
+		ball.update();
+
+		//az po tadial
 		for (Body b : bodies) {
 			// Get the body's user data - in this example, our user
 			// data is an instance of the Entity class
@@ -78,19 +96,7 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 				e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
 			}
 		}
-
-		sprite.setPosition(body.getPosition().x, body.getPosition().y);
-
-		// TOTO neviem či nážžľm teraz treba
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		batch.begin();
-		batch.draw(sprite, sprite.getX(), sprite.getY());
-		ground.update();
 		batch.end();
-		//az po tadial
-
 		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 	}
 

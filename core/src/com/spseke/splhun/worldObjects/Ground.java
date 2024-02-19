@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
+import com.spseke.splhun.MyGdxGame;
 
-public class Ground implements Entity {
+public class Ground extends Entity {
 
 
     Texture texture;
@@ -24,11 +26,13 @@ public class Ground implements Entity {
         this.y = y;
         this.spriteBatch = batch;
 
-        create();
+        create(MyGdxGame.world);
     }
 
+    @Override
+    public void create(World world){
 
-    public void create(){
+
         texture = new Texture("upjs_ground.jpeg");
         sprite = new Sprite(texture);
         sprite.setSize(Gdx.graphics.getWidth() , texture.getHeight());
