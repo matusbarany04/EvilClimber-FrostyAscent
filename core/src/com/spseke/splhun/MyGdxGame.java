@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.spseke.splhun.worldObjects.Ground;
 
 public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 	Sprite sprite;
@@ -23,10 +24,14 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 	World world;
 	Body body;
 
+
+	Ground ground;
+
 	@Override
 	public void create() {
-
 		batch = new SpriteBatch();
+
+		ground = new Ground(0, Gdx.graphics.getHeight()/2, batch);
 
 		img = new Texture("matus.gif");
 		sprite = new Sprite(img);
@@ -48,19 +53,6 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 		// Create a body in the world using our definition
 		body = world.createBody(bodyDef);
 
-		PolygonShape shape = new PolygonShape();
-
-		shape.setAsBox(sprite.getWidth()/2, sprite.getHeight()/2);
-
-
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = shape;
-		fixtureDef.density = 10f;
-
-		Fixture fixture = body.createFixture(fixtureDef);
-
-		// Shape is the only disposable of the lot, so get rid of it
-		shape.dispose();
 	}
 
 	@Override
@@ -75,8 +67,10 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 		// You know the rest...
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		batch.begin();
 		batch.draw(sprite, sprite.getX(), sprite.getY());
+		ground.update();
 		batch.end();
 	}
 
@@ -84,5 +78,6 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 	public void dispose() {
 		img.dispose();
 		world.dispose();
+		ground.dispose();
 	}
 }
