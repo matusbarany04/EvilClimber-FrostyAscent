@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.spseke.splhun.Entity;
 
-public class Ground {
+public class Ground implements Entity {
 
 
     Texture texture;
@@ -30,12 +31,12 @@ public class Ground {
     public void create(){
         texture = new Texture("upjs_ground.jpeg");
         sprite = new Sprite(texture);
-        sprite.setSize(Gdx.graphics.getWidth(), texture.getHeight());
-        sprite.scale(0.3f);
+        sprite.setSize(Gdx.graphics.getWidth() , texture.getHeight());
+//        sprite.scale(0.3f);
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
 
-        sprite.setScale(
-                (float)   Gdx.graphics.getWidth() / texture.getWidth(), 1f);
+//        sprite.setScale(
+//                (float)   Gdx.graphics.getWidth() / texture.getWidth(), 1f);
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -45,7 +46,8 @@ public class Ground {
     }
 
     public void update(){
-        spriteBatch.draw(sprite, sprite.getX(), sprite.getY());
+        sprite.draw(spriteBatch);
+//        spriteBatch.draw(sprite, sprite.getX(), sprite.getY());
     }
 
 
@@ -63,4 +65,13 @@ public class Ground {
     }
 
 
+    @Override
+    public void setPosition(float x, float y) {
+        sprite.setPosition(x,y);
+    }
+
+    @Override
+    public void setRotation(float v) {
+        sprite.setRotation(v);
+    }
 }

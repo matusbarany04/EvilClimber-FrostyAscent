@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,15 +16,21 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spseke.splhun.worldObjects.Ground;
+
+import java.util.ArrayList;
 
 public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 	Sprite sprite;
 	Texture img;
-	World world;
+	public static World world;
 	Body body;
 
+	// Create an array to be filled with the bodies
+// (better don't create a new one every time though)
+	public static Array<Body> bodies = new Array<Body>();
 
 	Ground ground;
 
@@ -57,14 +64,24 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 
 	@Override
 	public void render() {
+		world.getBodies(bodies);
 
+		for (Body b : bodies) {
+			// Get the body's user data - in this example, our user
+			// data is an instance of the Entity class
+			Entity e = (Entity) b.getUserData();
 
-		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
-
+			if (e != null) {
+				// Update the entities/sprites position and angle
+				e.setPosition(b.getPosition().x, b.getPosition().y);
+				// We need to convert our angle from radians to degrees
+				e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
+			}
+		}
 
 		sprite.setPosition(body.getPosition().x, body.getPosition().y);
 
-		// You know the rest...
+		// TOTO neviem či nážžľm teraz treba
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -72,6 +89,9 @@ public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
 		batch.draw(sprite, sprite.getX(), sprite.getY());
 		ground.update();
 		batch.end();
+		//az po tadial
+
+		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 	}
 
 	@Override
