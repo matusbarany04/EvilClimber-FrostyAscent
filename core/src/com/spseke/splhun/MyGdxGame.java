@@ -2,7 +2,9 @@ package com.spseke.splhun;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,87 +25,127 @@ import com.spseke.splhun.worldObjects.Ground;
 
 import java.util.ArrayList;
 
-public class MyGdxGame extends ApplicationAdapter {    SpriteBatch batch;
-	Sprite sprite;
-	Texture img;
-	public static World world;
-	public static Body body;
-	Ball ball;
+public class MyGdxGame extends ApplicationAdapter {
+    public static SpriteBatch batch;
 
-	// Create an array to be filled with the bodies
+    Sprite sprite;
+    Texture img;
+    public static World world;
+    public static Body body;
+    Ball ball;
+    Ball ball2;
+
+    // Create an array to be filled with the bodies
 // (better don't create a new one every time though)
-	public static Array<Body> bodies = new Array<Body>();
+    public static Array<Fixture> bodies = new Array<>();
 
-	Ground ground;
+    Ground ground;
+    Box2DDebugRenderer debugRenderer;
 
-	@Override
-	public void create() {
-		batch = new SpriteBatch();
+    Camera camera;
 
-		ground = new Ground(0, Gdx.graphics.getHeight()/2, batch);
-		ball = new Ball(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, 6);
-
-
-		img = new Texture("matus.gif");
-		sprite = new Sprite(img);
+    @Override
+    public void create() {
+        camera = new OrthographicCamera();
+        debugRenderer = new Box2DDebugRenderer();
+        batch = new SpriteBatch();
 
 
-		// Center the sprite in the top/middle of the screen
-		sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2);
+        world = new World(new Vector2(0, -10f), true);
 
 
-		world = new World(new Vector2(0, -98f), true);
+        ball = new Ball(
+                Gdx.graphics.getWidth() / 2,
+                Gdx.graphics.getHeight() / 4,
+                50);
+        ball.create(world);
+        ball2 = new Ball(
+                Gdx.graphics.getWidth() / 2,
+                20,
+                100);
+        ball2.setDensity(500);
+        ball2.create(world);
 
 
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyDef.BodyType.DynamicBody;
+        // First we create a body definition
+        BodyDef bodyDef = new BodyDef();
+// We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+// Set our body's starting position in the world
+        bodyDef.position.set(5, 10);
 
-		// Set our body to the same position as our sprite
-		bodyDef.position.set(sprite.getX(), sprite.getY());
+// Create our body in the world using our body definition
+        Body body = world.createBody(bodyDef);
 
-		// Create a body in the world using our definition
-		body = world.createBody(bodyDef);
+// Create a circle shape and set its radius to 6
+        CircleShape circle = new CircleShape();
+        circle.setRadius(6f);
 
-	}
+// Create a fixture definition to apply our shape to
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.6f; // Make it bounce a little bit
 
-	@Override
-	public void render() {
-		world.getBodies(bodies);
+// Create our fixture and attach it to the body
+        Fixture fixture = body.createFixture(fixtureDef);
+
+// Remember to dispose of any shapes after you're done with them!
+// BodyDef and FixtureDef don't need disposing, but shapes do.
+        circle.dispose();
 
 
-		sprite.setPosition(body.getPosition().x, body.getPosition().y);
+//
+//        ground = new Ground(0, Gdx.graphics.getHeight() / 5);
+//        ground.create(world);
+    }
 
-		// TOTO neviem či nážžľm teraz treba
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    @Override
+    public void render() {
 
-		batch.begin();
-		ground.update();
-		batch.draw(sprite, sprite.getX(), sprite.getY());
-		ball.update();
+        world.getFixtures(bodies);
 
-		//az po tadial
-		for (Body b : bodies) {
-			// Get the body's user data - in this example, our user
-			// data is an instance of the Entity class
-			Entity e = (Entity) b.getUserData();
 
-			if (e != null) {
-				// Update the entities/sprites position and angle
-				e.setPosition(b.getPosition().x, b.getPosition().y);
-				// We need to convert our angle from radians to degrees
-				e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
-			}
-		}
-		batch.end();
-		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
-	}
+//        sprite.setPosition(body.getPosition().x, body.getPosition().y);
 
-	@Override
-	public void dispose() {
-		img.dispose();
-		world.dispose();
-		ground.dispose();
-	}
+        // TOTO neviem či  teraz treba
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.begin();
+
+
+//        batch.draw(sprite, sprite.getX(), sprite.getY());
+//        ball.update();
+//        ground.update();
+
+        //az po tadial
+        for (Fixture b : bodies) {
+            // Get the body's user data - in this example, our user
+            // data is an instance of the Entity class
+            Entity e = (Entity) b.getUserData();
+
+            if (e != null) {
+                // Update the entities/sprites position and angle
+                e.setPosition(b.getBody().getPosition().x, b.getBody().getPosition().y);
+                // We need to convert our angle from radians to degrees
+                e.setRotation(MathUtils.radiansToDegrees * b.getBody().getAngle());
+                e.update();
+
+            }
+        }
+        batch.end();
+        debugRenderer.render(world, camera.combined);
+
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+    }
+
+    @Override
+    public void dispose() {
+        img.dispose();
+        world.dispose();
+        ground.dispose();
+        ball.dispose();
+    }
 }

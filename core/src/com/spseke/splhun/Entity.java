@@ -1,5 +1,7 @@
 package com.spseke.splhun;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -9,6 +11,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Entity {
 
+
+//    public Entity(){
+//        create(MyGdxGame.world);
+//    }
     protected  BodyDef bodyDef = new BodyDef();
 
     public abstract void setPosition(float x, float y);
@@ -16,16 +22,13 @@ public abstract class Entity {
     public abstract void setRotation(float v);
 
 
-    public void create(World world) {
-
-    }
-
+    public abstract void create(World world);
 
     public abstract void update();
 
+    public abstract void render(SpriteBatch batch);
+
     public void dispose(){
-
-
     }
 
 
