@@ -35,7 +35,6 @@ public class Ground extends Entity {
     @Override
     public void create(World world) {
 
-
         texture = new Texture("upjs_ground.jpeg");
         sprite = new Sprite(texture);
 
@@ -74,21 +73,21 @@ public class Ground extends Entity {
 
 
 
-        fixture.setUserData(this);
+        body.setUserData(this);
 
 
         rectangle.dispose();
     }
 
+    @Override
     public void update() {
-        sprite.draw(MyGdxGame.batch);
-//        spriteBatch.draw(sprite, sprite.getX(), sprite.getY());
+
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        sprite.draw(MyGdxGame.batch);
-    }
+
+
+
+
 
 
     public void dispose() {
@@ -100,6 +99,7 @@ public class Ground extends Entity {
         return texture;
     }
 
+    @Override
     public Sprite getSprite() {
         return sprite;
     }

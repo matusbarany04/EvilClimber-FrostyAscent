@@ -12,29 +12,25 @@ import com.badlogic.gdx.physics.box2d.World;
 public abstract class Entity {
 
 
-//    public Entity(){
-//        create(MyGdxGame.world);
-//    }
+
     protected  BodyDef bodyDef = new BodyDef();
+    private Body body;
 
     public abstract void setPosition(float x, float y);
 
     public abstract void setRotation(float v);
 
-
     public abstract void create(World world);
 
     public abstract void update();
 
-    public abstract void render(SpriteBatch batch);
+    public abstract Sprite getSprite();
 
-    public void dispose(){
+    public void dispose(){}
+
+
+    public Body getBody() {
+        return body;
     }
-
-
-    public void setBodyType(BodyDef.BodyType type) {
-        bodyDef.type = type;
-    }
-
 
 }
