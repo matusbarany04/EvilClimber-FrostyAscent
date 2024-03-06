@@ -72,7 +72,7 @@ public class Matus extends Entity {
 //                Gdx.graphics.getHeight() / 2);
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         // Set our body to the same position as our sprite
         bodyDef.position.set(0, 0);
@@ -107,7 +107,7 @@ public class Matus extends Entity {
     }
 
     public void stepUp() {
-        body.setTransform(body.getPosition().x, body.getPosition().y + speed, 0);
+        body.applyLinearImpulse(0, 100, body.getPosition().x, body.getPosition().y - speed, true);
         directionR = !directionR;
         sprite.setTexture(directionR ? right : left);
     }
@@ -116,7 +116,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideRight);
         delayedRun(() -> {
             sprite.setTexture(right);
-            body.setTransform(body.getPosition().x + speed, body.getPosition().y, 0);
+            body.applyLinearImpulse(-100, 0, body.getPosition().x, body.getPosition().y, true);
 
         }, 200);
     }
@@ -125,7 +125,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideLeft);
         delayedRun(() -> {
             sprite.setTexture(left);
-            body.setTransform(body.getPosition().x - speed, body.getPosition().y, 0);
+            body.applyLinearImpulse(100, 0, body.getPosition().x, body.getPosition().y, true);
 
         }, 200);
     }
