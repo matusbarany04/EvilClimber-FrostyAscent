@@ -26,8 +26,6 @@ import com.spseke.splhun.worldObjects.Ground;
 
 import java.util.ArrayList;
 
-import jdk.internal.org.jline.utils.Log;
-
 public class MyGdxGame extends ApplicationAdapter {
     public static SpriteBatch batch;
 
@@ -50,6 +48,8 @@ public class MyGdxGame extends ApplicationAdapter {
     static final int WORLD_WIDTH = 100;
     static final int WORLD_HEIGHT = 100;
 
+	ControlPanel controlPanel;
+	Matus matus;
 
     @Override
     public void create() {
@@ -68,6 +68,13 @@ public class MyGdxGame extends ApplicationAdapter {
         createFloor();
         createObject();
 
+		matus = new Matus(world);
+		controlPanel = new ControlPanel();
+		controlPanel.onClickButtonUp(matus::stepUp);
+		controlPanel.onClickButtonRight(matus::stepRight);
+		controlPanel.onClickButtonLeft(matus::stepLeft);
+
+
         ball = new Ball(
                 0.5f,
                 -5,
@@ -81,6 +88,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 1);
         ball2.setDensity(1);
         ball2.create(world);
+
+        matus.create(world);
 
 
         mapSprite = new Sprite(new Texture(Gdx.files.internal("upjs.jpeg")));
@@ -101,7 +110,8 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-
+		matus.update();
+		controlPanel.update();
 
         renderSystem.update(batch);
 

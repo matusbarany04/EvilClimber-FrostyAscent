@@ -52,7 +52,7 @@ public class Ball extends Entity {
 
     @Override
     public void create(World world) {
-        img = new Texture(Gdx.files.internal("python.png"));
+        img = new Texture("python.png");
         sprite = new Sprite(img);
 //
         sprite.setOrigin(radius, radius);
