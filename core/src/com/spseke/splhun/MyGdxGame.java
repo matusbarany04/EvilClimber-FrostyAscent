@@ -59,11 +59,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 //        camera.position.set(camera.viewportWidth * 2f, camera.viewportHeight * 2f, 0);
 
+
         debugRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
 
         world = new World(new Vector2(0, -10f), true);
-        renderSystem = new RenderSystem(world);
+        renderSystem = new RenderSystem(world, camera);
 
         createFloor();
         createObject();

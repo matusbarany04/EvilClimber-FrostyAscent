@@ -28,6 +28,9 @@ public class Matus extends Entity {
     Texture sideRight;
     Texture sideLeft;
     Body body;
+    PolygonShape shape;
+
+    final int speed = 1;
 
     boolean directionR;
 
@@ -38,8 +41,8 @@ public class Matus extends Entity {
     @Override
     public void setPosition(float x, float y) {
         sprite.setPosition(
-                x ,
-                y
+                x - sprite.getWidth()/2,
+                y - sprite.getHeight()/2
         );
     }
 
@@ -58,10 +61,10 @@ public class Matus extends Entity {
         sprite = new Sprite(right);
         batch = new SpriteBatch();
         // Center the sprite in the top/middle of the screen
-        sprite.setOrigin(
-                 sprite.getWidth() / 2,
-                sprite.getHeight() / 2
-        );
+//        sprite.setOrigin(
+//                 sprite.getWidth() / 2,
+//                sprite.getHeight() / 2
+//        );
 
 
 //        sprite.setPosition(
@@ -69,7 +72,7 @@ public class Matus extends Entity {
 //                Gdx.graphics.getHeight() / 2);
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
 
         // Set our body to the same position as our sprite
         bodyDef.position.set(0, 0);
@@ -77,9 +80,9 @@ public class Matus extends Entity {
         // Create a body in the world using our definition
         body = world.createBody(bodyDef);
 
-        PolygonShape shape = new PolygonShape();
+         shape = new PolygonShape();
 
-        shape.setAsBox(1, 2);
+        shape.setAsBox(1, 3);
 
         shape.dispose();
 
@@ -104,7 +107,7 @@ public class Matus extends Entity {
     }
 
     public void stepUp() {
-        body.setTransform(body.getPosition().x, body.getPosition().y + 50, 0);
+        body.setTransform(body.getPosition().x, body.getPosition().y + speed, 0);
         directionR = !directionR;
         sprite.setTexture(directionR ? right : left);
     }
@@ -113,7 +116,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideRight);
         delayedRun(() -> {
             sprite.setTexture(right);
-            body.setTransform(body.getPosition().x + 50, body.getPosition().y, 0);
+            body.setTransform(body.getPosition().x + speed, body.getPosition().y, 0);
 
         }, 200);
     }
@@ -122,7 +125,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideLeft);
         delayedRun(() -> {
             sprite.setTexture(left);
-            body.setTransform(body.getPosition().x - 50, body.getPosition().y, 0);
+            body.setTransform(body.getPosition().x - speed, body.getPosition().y, 0);
 
         }, 200);
     }
