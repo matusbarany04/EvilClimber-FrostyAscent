@@ -24,6 +24,9 @@ public class Ground extends Entity {
     int y;
     Sprite sprite;
 
+    float width = 100;
+    float height = 1;
+
     PolygonShape rectangle;
 
 
@@ -35,45 +38,28 @@ public class Ground extends Entity {
     @Override
     public void create(World world) {
 
-        texture = new Texture("upjs_ground.jpeg");
-        sprite = new Sprite(texture);
+//        texture = new Texture("upjs_ground.jpeg");
+//        sprite = new Sprite(texture);
+//
+//        sprite.setSize(Gdx.graphics.getWidth(), texture.getHeight());
 
-        sprite.setSize(Gdx.graphics.getWidth(), texture.getHeight());
 
-
+        // create a new body definition (type and location)
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-
-        bodyDef.position.set(x, y);
-        Body body = world.createBody(bodyDef);
-
-        // First we create a body definition
-        BodyDef bodyDef = new BodyDef();
-        // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        // Set our body's starting position in the world
-        bodyDef.position.set(x, y);
-
-
-        // Create a circle shape and set its radius to 6
+        bodyDef.position.set(0, -10);
+        // add it to the world
+        Body bodys = world.createBody(bodyDef);
+        // set the shape (here we use a box 50 meters wide, 1 meter tall )
         rectangle = new PolygonShape();
+        rectangle.setAsBox(width, height);
+        // create the physical object in our body)
+        // without this our body would just be data in the world
+        bodys.createFixture(rectangle, 0.0f);
+        // we no longer use the shape object here so dispose of it.
+        rectangle.dispose();
 
-        rectangle.setAsBox(Gdx.graphics.getWidth(), texture.getHeight());
-
-
-        // Create a fixture definition to apply our shape to
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = rectangle;
-        fixtureDef.density = 1f;
-
-        // Create our fixture and attach it to the body
-        Fixture fixture = body.createFixture(fixtureDef);
-
-        body.createFixture(fixtureDef);
-
-
-
-        body.setUserData(this);
+        bodys.setUserData(this);
 
 
         rectangle.dispose();
@@ -83,11 +69,6 @@ public class Ground extends Entity {
     public void update() {
 
     }
-
-
-
-
-
 
 
     public void dispose() {
