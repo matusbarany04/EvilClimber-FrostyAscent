@@ -19,7 +19,6 @@ public class Ground extends Entity {
 
 
     Texture texture;
-    BodyDef bodyDef;
     int x;
     int y;
     Sprite sprite;
@@ -27,42 +26,54 @@ public class Ground extends Entity {
     float width = 100;
     float height = 1;
 
-    PolygonShape rectangle;
 
-
+    public Ground() {
+        this.x = 0;
+        this.y = 0;
+    }
     public Ground(int x, int y) {
         this.x = x;
         this.y = y;
+
     }
 
     @Override
     public void create(World world) {
-
-//        texture = new Texture("upjs_ground.jpeg");
-//        sprite = new Sprite(texture);
-//
-//        sprite.setSize(Gdx.graphics.getWidth(), texture.getHeight());
+        texture = new Texture("upjs_ground.jpeg");
+        sprite = new Sprite(texture);
+        sprite.setTexture(texture);
+        int size = 50 * 10 ;
+        sprite.setOrigin(size  , size );
+        sprite.setSize(width * 100  , height * 100);
+//        sprite.setPosition(Gdx.graphics.getWidth() /2 ,Gdx.graphics.getHeight() /2 );
 
 
         // create a new body definition (type and location)
-        bodyDef = new BodyDef();
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0, -10);
+
         // add it to the world
         Body bodys = world.createBody(bodyDef);
         // set the shape (here we use a box 50 meters wide, 1 meter tall )
-        rectangle = new PolygonShape();
-        rectangle.setAsBox(width, height);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(50, 1);
         // create the physical object in our body)
         // without this our body would just be data in the world
-        bodys.createFixture(rectangle, 0.0f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+        fixtureDef.friction = 1f;
+        fixtureDef.restitution = 1f;
+
+        bodys.createFixture(fixtureDef);
+
+//        bodys.createFixture(shape, 0.0f);
         // we no longer use the shape object here so dispose of it.
-        rectangle.dispose();
+        shape.dispose();
 
         bodys.setUserData(this);
 
-
-        rectangle.dispose();
     }
 
     @Override
@@ -88,11 +99,14 @@ public class Ground extends Entity {
 
     @Override
     public void setPosition(float x, float y) {
-        sprite.setPosition(x, y);
+        sprite.setPosition(
+                x  ,
+                y + height/2
+        );
     }
 
     @Override
     public void setRotation(float v) {
-        sprite.setRotation(v);
+//        sprite.setRotation(v);
     }
 }

@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
+import com.spseke.splhun.worldObjects.UPJS;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	ControlPanel controlPanel;
 	Matus matus;
+    UPJS upjs;
 
     @Override
     public void create() {
@@ -66,10 +68,9 @@ public class MyGdxGame extends ApplicationAdapter {
         world = new World(new Vector2(0, -10f), true);
         renderSystem = new RenderSystem(world, camera);
 
-        createFloor();
-        createObject();
 
-		matus = new Matus(world);
+
+        matus = new Matus(world);
 		controlPanel = new ControlPanel();
 		controlPanel.onClickButtonUp(matus::stepUp);
 		controlPanel.onClickButtonRight(matus::stepRight);
@@ -92,6 +93,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
         matus.create(world);
 
+
+        upjs = new UPJS();
+        upjs.create(world);
+
+        ground = new Ground();
+        ground.create(world);
 
         mapSprite = new Sprite(new Texture(Gdx.files.internal("upjs.jpeg")));
         mapSprite.setScale(1,1f);
@@ -153,22 +160,6 @@ public class MyGdxGame extends ApplicationAdapter {
         shape.dispose();
     }
 
-    private void createFloor() {
-        // create a new body definition (type and location)
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0, -10);
-        // add it to the world
-        Body bodys = world.createBody(bodyDef);
-        // set the shape (here we use a box 50 meters wide, 1 meter tall )
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(50, 1);
-        // create the physical object in our body)
-        // without this our body would just be data in the world
-        bodys.createFixture(shape, 0.0f);
-        // we no longer use the shape object here so dispose of it.
-        shape.dispose();
-    }
 
 
 

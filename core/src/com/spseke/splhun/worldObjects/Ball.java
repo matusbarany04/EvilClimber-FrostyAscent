@@ -40,8 +40,8 @@ public class Ball extends Entity {
     @Override
     public void setPosition(float x, float y) {
         sprite.setPosition(
-                x - radius,
-                y - radius
+                x - radius * 50,
+                y - radius * 50
         );
     }
 
@@ -54,10 +54,10 @@ public class Ball extends Entity {
     public void create(World world) {
         img = new Texture("python.png");
         sprite = new Sprite(img);
-//
-        sprite.setOrigin(radius, radius);
-        sprite.setSize(2 * radius, 2 * radius);
-
+        sprite.setTexture(img);
+        int size = 50 * radius;
+        sprite.setOrigin(size  , size );
+        sprite.setSize(size * 2  , size * 2);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
