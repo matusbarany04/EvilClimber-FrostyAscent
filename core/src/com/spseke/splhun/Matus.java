@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
-
+  
 public class Matus extends Entity {
 
     SpriteBatch batch;
