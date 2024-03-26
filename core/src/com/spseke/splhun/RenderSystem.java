@@ -11,6 +11,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class RenderSystem {
 
@@ -29,7 +33,18 @@ public class RenderSystem {
     public void update(SpriteBatch batch) {
         world.getBodies(bodies);
 
-        for (Body b : bodies)
+
+
+        ArrayList<Body> bodyArray = new ArrayList<>();
+        for (Body bod: bodies) {
+            bodyArray.add(bod);
+        }
+
+        // TODO add groups later
+        Collections.sort(bodyArray, (body, body2) -> Integer.compare(((Entity)body.getUserData()).getZIndex(), ((Entity)body2.getUserData()).getZIndex()));
+
+
+        for (Body b : bodyArray)
         {
             Entity e = (Entity) b.getUserData();
             if(e != null){
@@ -41,7 +56,7 @@ public class RenderSystem {
 
                 camera.project(spritePosition);
 
-                e.setPosition(spritePosition.x, spritePosition.y);
+                e.setPosition(b.getPosition().x * 50 ,  b.getPosition().y * 50 );
                 e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
                 e.update();
 

@@ -34,7 +34,7 @@ public class Matus extends Entity {
 
     boolean directionR;
 
-    public Matus(World world) {
+    public Matus() {
 
     }
 
@@ -42,7 +42,7 @@ public class Matus extends Entity {
     public void setPosition(float x, float y) {
         sprite.setPosition(
                 x - sprite.getWidth()/2,
-                y - sprite.getHeight()/2
+                y  - sprite.getHeight()/2
         );
     }
 
@@ -60,6 +60,10 @@ public class Matus extends Entity {
         sideLeft = new Texture("matus-move-left.png");
         sprite = new Sprite(right);
         batch = new SpriteBatch();
+
+        float aspectRatio = sprite.getWidth() / sprite.getHeight();
+
+        sprite.setSize(1, 1 * aspectRatio );
         // Center the sprite in the top/middle of the screen
 //        sprite.setOrigin(
 //                 sprite.getWidth() / 2,
@@ -95,6 +99,10 @@ public class Matus extends Entity {
     }
 
     public void update() {
+
+        float aspectRatio = sprite.getWidth() / sprite.getHeight();
+
+        sprite.setSize(1 * aspectRatio, 1 );
 //        sprite.setPosition(body.getPosition().x, body.getPosition().y);
 //        batch.begin();
 //        batch.draw(sprite, sprite.getX(), sprite.getY());

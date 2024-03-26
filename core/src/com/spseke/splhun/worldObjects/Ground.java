@@ -41,25 +41,17 @@ public class Ground extends Entity {
     public void create(World world) {
         texture = new Texture("upjs_ground.jpeg");
         sprite = new Sprite(texture);
-        sprite.setTexture(texture);
-        int size = 50 * 10 ;
-        sprite.setOrigin(size  , size );
+
         sprite.setSize(width * 100  , height * 100);
-//        sprite.setPosition(Gdx.graphics.getWidth() /2 ,Gdx.graphics.getHeight() /2 );
 
 
-        // create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0, -10);
 
-        // add it to the world
         Body bodys = world.createBody(bodyDef);
-        // set the shape (here we use a box 50 meters wide, 1 meter tall )
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(50, 1);
-        // create the physical object in our body)
-        // without this our body would just be data in the world
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
@@ -68,8 +60,6 @@ public class Ground extends Entity {
 
         bodys.createFixture(fixtureDef);
 
-//        bodys.createFixture(shape, 0.0f);
-        // we no longer use the shape object here so dispose of it.
         shape.dispose();
 
         bodys.setUserData(this);
@@ -100,8 +90,8 @@ public class Ground extends Entity {
     @Override
     public void setPosition(float x, float y) {
         sprite.setPosition(
-                x  ,
-                y + height/2
+                x - sprite.getWidth()/2,
+                y - sprite.getHeight()/2
         );
     }
 

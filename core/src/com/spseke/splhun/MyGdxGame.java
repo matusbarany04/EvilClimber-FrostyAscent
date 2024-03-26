@@ -68,10 +68,11 @@ public class MyGdxGame extends ApplicationAdapter {
         world = new World(new Vector2(0, -10f), true);
         renderSystem = new RenderSystem(world, camera);
 
+        upjs = new UPJS(50,40);
+        upjs.create(world);
 
-
-        matus = new Matus(world);
-		controlPanel = new ControlPanel();
+        matus = new Matus();
+        controlPanel = new ControlPanel();
 		controlPanel.onClickButtonUp(matus::stepUp);
 		controlPanel.onClickButtonRight(matus::stepRight);
 		controlPanel.onClickButtonLeft(matus::stepLeft);
@@ -94,8 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
         matus.create(world);
 
 
-        upjs = new UPJS();
-        upjs.create(world);
+
 
         ground = new Ground();
         ground.create(world);
@@ -105,26 +105,23 @@ public class MyGdxGame extends ApplicationAdapter {
         mapSprite.setPosition(0, 0);
         mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
 
-//        ground = new Ground(0, Gdx.graphics.getHeight() / 5);
-//        ground.create(world);
     }
 
     @Override
     public void render() {
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
+
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-		matus.update();
-		controlPanel.update();
-
+        batch.setProjectionMatrix(camera.combined);
         renderSystem.update(batch);
+        controlPanel.update();
 
-//        mapSprite.draw(batch);
         batch.end();
+
 
         debugRenderer.render(world, camera.combined);
 
@@ -132,33 +129,6 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
 
-    private void createObject(){
-
-        //create a new body definition (type and location)
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0,0);
-
-
-        // add it to the world
-        Body bodyd = world.createBody(bodyDef);
-
-        // set the shape (here we use a box 50 meters wide, 1 meter tall )
-        CircleShape shape = new CircleShape();
-        shape.setRadius(1);
-
-        // set the properties of the object ( shape, weight, restitution(bouncyness)
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-
-        // create the physical object in our body)
-        // without this our body would just be data in the world
-        bodyd.createFixture(shape, 0.0f);
-
-        // we no longer use the shape object here so dispose of it.
-        shape.dispose();
-    }
 
 
 

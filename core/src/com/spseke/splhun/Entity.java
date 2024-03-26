@@ -11,6 +11,15 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Entity {
 
+    int zIndex = 0;
+
+    public int getZIndex() {
+        return zIndex;
+    }
+
+    public void setZIndex(int zIndex) {
+        this.zIndex = zIndex;
+    }
 
 
     protected  BodyDef bodyDef = new BodyDef();
