@@ -20,15 +20,23 @@ public class UPJS extends Entity {
 
     int width = 0;
     int height = 0;
+    float x = 0;
+    float y = 0;
 
-    public UPJS(int width, int height){
+
+    public UPJS(float x , float y, int width, int height){
         this.width = width;
+        this.x = x;
+        this.y = y;
+
         this.height = height;
         setZIndex(-1);
     }
 
     @Override
     public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
         sprite.setPosition(
                 x ,
                 y
@@ -45,13 +53,11 @@ public class UPJS extends Entity {
         texture = new Texture("upjs_part.jpeg");
         sprite = new Sprite(texture);
 
-        float aspect = sprite.getHeight() / sprite.getWidth();
-        sprite.setSize(50  ,  50 * aspect );
 
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0, -10);
+        bodyDef.position.set(x, y);
 
         Body bodys = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
@@ -71,6 +77,14 @@ public class UPJS extends Entity {
 
     @Override
     public void update() {
+        float aspectRatio = (float) texture.getWidth() / texture.getHeight();
+
+        sprite.setSize(1000 * aspectRatio, 1000 );
+
+        sprite.setOrigin(
+                sprite.getWidth() / 2,
+                sprite.getHeight() / 2
+        );
 
     }
 

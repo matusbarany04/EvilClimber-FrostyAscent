@@ -63,7 +63,7 @@ public class Matus extends Entity {
 
         float aspectRatio = sprite.getWidth() / sprite.getHeight();
 
-        sprite.setSize(1, 1 * aspectRatio );
+//        sprite.setSize(1, 1 * aspectRatio );
         // Center the sprite in the top/middle of the screen
 //        sprite.setOrigin(
 //                 sprite.getWidth() / 2,
@@ -100,9 +100,15 @@ public class Matus extends Entity {
 
     public void update() {
 
-        float aspectRatio = sprite.getWidth() / sprite.getHeight();
+        float aspectRatio = (float) right.getWidth() / right.getHeight();
 
-        sprite.setSize(1 * aspectRatio, 1 );
+        sprite.setSize(300 * aspectRatio, 300 );
+
+        sprite.setOrigin(
+         sprite.getWidth() / 2,
+        sprite.getHeight() / 2
+        );
+
 //        sprite.setPosition(body.getPosition().x, body.getPosition().y);
 //        batch.begin();
 //        batch.draw(sprite, sprite.getX(), sprite.getY());

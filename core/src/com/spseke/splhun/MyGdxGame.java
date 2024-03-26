@@ -59,6 +59,7 @@ public class MyGdxGame extends ApplicationAdapter {
         float h = Gdx.graphics.getHeight();
         camera = new OrthographicCamera(50, 50 * (h / w));
 
+
 //        camera.position.set(camera.viewportWidth * 2f, camera.viewportHeight * 2f, 0);
 
 
@@ -68,8 +69,9 @@ public class MyGdxGame extends ApplicationAdapter {
         world = new World(new Vector2(0, -10f), true);
         renderSystem = new RenderSystem(world, camera);
 
-        upjs = new UPJS(50,40);
+        upjs = new UPJS(-25,-10,50,40);
         upjs.create(world);
+
 
         matus = new Matus();
         controlPanel = new ControlPanel();
@@ -111,12 +113,13 @@ public class MyGdxGame extends ApplicationAdapter {
     public void render() {
         camera.update();
 
-
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         batch.begin();
-        batch.setProjectionMatrix(camera.combined);
+//        batch.setProjectionMatrix(camera.combined);
+
         renderSystem.update(batch);
         controlPanel.update();
 

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import jdk.internal.net.http.common.Log;
+
 
 public class RenderSystem {
 
@@ -41,10 +43,10 @@ public class RenderSystem {
         }
 
         // TODO add groups later
-        Collections.sort(bodyArray, (body, body2) -> Integer.compare(((Entity)body.getUserData()).getZIndex(), ((Entity)body2.getUserData()).getZIndex()));
+//        Collections.sort(bodyArray, (body, body2) -> Integer.compare(((Entity)body.getUserData()).getZIndex(), ((Entity)body2.getUserData()).getZIndex()));
 
 
-        for (Body b : bodyArray)
+        for (Body b : bodies)
         {
             Entity e = (Entity) b.getUserData();
             if(e != null){
@@ -54,9 +56,16 @@ public class RenderSystem {
                         b.getPosition().y,
                         0);
 
+
                 camera.project(spritePosition);
 
-                e.setPosition(b.getPosition().x * 50 ,  b.getPosition().y * 50 );
+
+                e.setPosition(
+                        spritePosition.x ,
+                        spritePosition.y
+                );
+                camera.unproject(spritePosition);
+
                 e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
                 e.update();
 

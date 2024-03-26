@@ -14,6 +14,8 @@ import com.spseke.splhun.Entity;
 import com.spseke.splhun.MyGdxGame;
 import com.spseke.splhun.Units;
 
+import javax.swing.JTextArea;
+
 public class Ball extends Entity {
 
     float x;
@@ -55,9 +57,9 @@ public class Ball extends Entity {
         img = new Texture("python.png");
         sprite = new Sprite(img);
         sprite.setTexture(img);
-        int size = 50 * radius;
-        sprite.setOrigin(size  , size );
-        sprite.setSize(size * 2  , size * 2);
+//        int size = 50 * radius;
+//        sprite.setOrigin(size  , size );
+//        sprite.setSize(size * 2  , size * 2);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -82,6 +84,20 @@ public class Ball extends Entity {
 
     @Override
     public void update() {
+        System.out.println(
+                "ball" +
+                        sprite.getX()
+                + " " +
+                sprite.getY()
+        );
+        float aspectRatio = (float) img.getWidth() / img.getHeight();
+
+        sprite.setSize(50 * aspectRatio, 50);
+
+        sprite.setOrigin(
+                sprite.getWidth() / 2,
+                sprite.getHeight() / 2
+        );
 
     }
 
