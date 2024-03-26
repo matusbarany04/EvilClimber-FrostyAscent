@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
 import com.spseke.splhun.worldObjects.UPJS;
@@ -55,6 +56,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void create() {
+        LayerManager.init();
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         camera = new OrthographicCamera(50, 50 * (h / w));
@@ -96,11 +98,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
         matus.create(world);
 
-
-
-
         ground = new Ground();
         ground.create(world);
+        ground.setPosition(0,5);
+
 
         mapSprite = new Sprite(new Texture(Gdx.files.internal("upjs.jpeg")));
         mapSprite.setScale(1,1f);
@@ -112,13 +113,13 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void render() {
         camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
         batch.begin();
-//        batch.setProjectionMatrix(camera.combined);
 
         renderSystem.update(batch);
         controlPanel.update();
@@ -130,11 +131,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
     }
-
-
-
-
-
 
     @Override
     public void dispose() {

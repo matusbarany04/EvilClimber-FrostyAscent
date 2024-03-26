@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.spseke.splhun.groups.LayerManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,42 +36,30 @@ public class RenderSystem {
     public void update(SpriteBatch batch) {
         world.getBodies(bodies);
 
+        ArrayList<ArrayList<Entity>> layers =  LayerManager.getLayers();
 
+        for (ArrayList<Entity> layer : layers) {
 
-        ArrayList<Body> bodyArray = new ArrayList<>();
-        for (Body bod: bodies) {
-            bodyArray.add(bod);
-        }
-
-        // TODO add groups later
-//        Collections.sort(bodyArray, (body, body2) -> Integer.compare(((Entity)body.getUserData()).getZIndex(), ((Entity)body2.getUserData()).getZIndex()));
-
-
-        for (Body b : bodies)
-        {
-            Entity e = (Entity) b.getUserData();
-            if(e != null){
+            for (Entity e  : layer) {
 
                 Vector3 spritePosition = new Vector3(
-                        b.getPosition().x,
-                        b.getPosition().y,
+                        e.getBody().getPosition().x,
+                        e.getBody().getPosition().y,
                         0);
-
-
-                camera.project(spritePosition);
 
 
                 e.setPosition(
                         spritePosition.x ,
                         spritePosition.y
                 );
-                camera.unproject(spritePosition);
 
-                e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
+                e.setRotation(MathUtils.radiansToDegrees * e.getBody().getAngle());
                 e.update();
 
                 e.getSprite().draw(batch);
+
             }
         }
+
     }
 }

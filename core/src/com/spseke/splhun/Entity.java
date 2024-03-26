@@ -8,28 +8,33 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.spseke.splhun.groups.LayerManager;
+import com.spseke.splhun.groups.Layers;
 
 public abstract class Entity {
 
-    int zIndex = 0;
+    Layers layer = Layers.FOREGROUND1;
 
-    public int getZIndex() {
-        return zIndex;
+    public Layers getLayer() {
+        return layer;
     }
 
-    public void setZIndex(int zIndex) {
-        this.zIndex = zIndex;
-    }
 
+    public void configureLayer(Layers layer) {
+        this.layer = layer;
+        LayerManager.registerEntity(this, layer);
+    }
 
     protected  BodyDef bodyDef = new BodyDef();
-    private Body body;
+    protected Body body;
 
     public abstract void setPosition(float x, float y);
 
     public abstract void setRotation(float v);
 
-    public abstract void create(World world);
+    public void create(World world){
+        configureLayer(layer);
+    }
 
     public abstract void update();
 

@@ -39,17 +39,18 @@ public class Ground extends Entity {
 
     @Override
     public void create(World world) {
+        super.create(world);
         texture = new Texture("upjs_ground.jpeg");
         sprite = new Sprite(texture);
 
-        sprite.setSize(width * 100  , height * 100);
+        sprite.setSize(50  ,2);
 
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0, -10);
+        bodyDef.position.set(0, -11);
 
-        Body bodys = world.createBody(bodyDef);
+         body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(50, 1);
         FixtureDef fixtureDef = new FixtureDef();
@@ -58,11 +59,10 @@ public class Ground extends Entity {
         fixtureDef.friction = 1f;
         fixtureDef.restitution = 1f;
 
-        bodys.createFixture(fixtureDef);
+        body.createFixture(fixtureDef);
 
-        shape.dispose();
 
-        bodys.setUserData(this);
+        body.setUserData(this);
 
     }
 

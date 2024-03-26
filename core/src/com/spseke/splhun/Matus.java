@@ -27,7 +27,7 @@ public class Matus extends Entity {
 
     Texture sideRight;
     Texture sideLeft;
-    Body body;
+
     PolygonShape shape;
 
     final int speed = 1;
@@ -54,26 +54,13 @@ public class Matus extends Entity {
 
     @Override
     public void create(World world) {
+        super.create(world);
         right = new Texture("matus-right.png");
         left = new Texture("matus-left.png");
         sideRight = new Texture("matus-move-right.png");
         sideLeft = new Texture("matus-move-left.png");
         sprite = new Sprite(right);
         batch = new SpriteBatch();
-
-        float aspectRatio = sprite.getWidth() / sprite.getHeight();
-
-//        sprite.setSize(1, 1 * aspectRatio );
-        // Center the sprite in the top/middle of the screen
-//        sprite.setOrigin(
-//                 sprite.getWidth() / 2,
-//                sprite.getHeight() / 2
-//        );
-
-
-//        sprite.setPosition(
-//                Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-//                Gdx.graphics.getHeight() / 2);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -86,7 +73,7 @@ public class Matus extends Entity {
 
          shape = new PolygonShape();
 
-        shape.setAsBox(1, 3);
+        shape.setAsBox(1, 2.7f);
 
         shape.dispose();
 
@@ -102,17 +89,14 @@ public class Matus extends Entity {
 
         float aspectRatio = (float) right.getWidth() / right.getHeight();
 
-        sprite.setSize(300 * aspectRatio, 300 );
+        sprite.setSize(6 * aspectRatio, 6 );
 
         sprite.setOrigin(
          sprite.getWidth() / 2,
         sprite.getHeight() / 2
         );
 
-//        sprite.setPosition(body.getPosition().x, body.getPosition().y);
-//        batch.begin();
-//        batch.draw(sprite, sprite.getX(), sprite.getY());
-//        batch.end();
+
     }
 
     @Override

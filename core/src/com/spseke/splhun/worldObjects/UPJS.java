@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
+import com.spseke.splhun.groups.Layers;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +31,7 @@ public class UPJS extends Entity {
         this.y = y;
 
         this.height = height;
-        setZIndex(-1);
+        configureLayer(Layers.BACKGROUND1);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class UPJS extends Entity {
 
     @Override
     public void create(World world) {
+        super.create(world);
         texture = new Texture("upjs_part.jpeg");
         sprite = new Sprite(texture);
 
@@ -59,27 +61,26 @@ public class UPJS extends Entity {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
 
-        Body bodys = world.createBody(bodyDef);
+         body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(50, 1);
+//        shape.setAsBox(0, 0); // pozor rozbije matusa
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
         fixtureDef.friction = 1f;
         fixtureDef.restitution = 1f;
 
-        bodys.createFixture(fixtureDef);
+        body.createFixture(fixtureDef);
 
-        shape.dispose();
 
-        bodys.setUserData(this);
+        body.setUserData(this);
     }
 
     @Override
     public void update() {
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
-
-        sprite.setSize(1000 * aspectRatio, 1000 );
+//        * aspectRatio
+        sprite.setSize(50 , 50 / aspectRatio);
 
         sprite.setOrigin(
                 sprite.getWidth() / 2,
