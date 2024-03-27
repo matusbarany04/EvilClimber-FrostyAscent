@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
 import com.spseke.splhun.MyGdxGame;
+import com.spseke.splhun.groups.Layers;
 
 public class Ground extends Entity {
 
@@ -23,7 +24,7 @@ public class Ground extends Entity {
     int y;
     Sprite sprite;
 
-    float width = 100;
+    float width = 50;
     float height = 1;
 
 
@@ -40,19 +41,24 @@ public class Ground extends Entity {
     @Override
     public void create(World world) {
         super.create(world);
-        texture = new Texture("upjs_ground.jpeg");
+        texture = new Texture("matus-right.png");
         sprite = new Sprite(texture);
+        sprite.setTexture(texture);
 
-        sprite.setSize(50  ,2);
 
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0, -11);
+        bodyDef.position.set(x,y);
 
          body = world.createBody(bodyDef);
+
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(50, 1);
+        shape.setAsBox(width, height);
+
+
+        shape.dispose();
+
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
@@ -66,9 +72,27 @@ public class Ground extends Entity {
 
     }
 
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
     @Override
     public void update() {
+        float aspectRatio = (float) sprite.getWidth() / sprite.getHeight();
 
+//        System.out.println(aspectRatio);
+//        System.out.println(sprite.getWidth() + "width");
+
+        sprite.setSize(50,50);
+
+        sprite.setOrigin(
+                sprite.getWidth() / 2,
+                sprite.getHeight() / 2
+        );
     }
 
 
@@ -97,6 +121,7 @@ public class Ground extends Entity {
 
     @Override
     public void setRotation(float v) {
-//        sprite.setRotation(v);
+        sprite.setRotation(v);
+
     }
 }
