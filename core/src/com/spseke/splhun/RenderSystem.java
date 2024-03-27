@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import jdk.internal.net.http.common.Log;
-
 
 public class RenderSystem {
 
