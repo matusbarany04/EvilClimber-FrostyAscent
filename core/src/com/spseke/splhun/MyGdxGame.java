@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
+import com.spseke.splhun.worldObjects.JumpItem;
 import com.spseke.splhun.worldObjects.UPJS;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class MyGdxGame extends ApplicationAdapter {
         upjs.create(world);
 
 
-        matus = new Matus();
+        matus = new Matus(world);
         controlPanel = new ControlPanel();
 		controlPanel.onClickButtonUp(matus::stepUp);
 		controlPanel.onClickButtonRight(matus::stepRight);
@@ -102,12 +103,18 @@ public class MyGdxGame extends ApplicationAdapter {
         ground.create(world);
         ground.setPosition(0,5);
 
+        JumpItem jumpItem = new JumpItem();
+        jumpItem.create(world);
+        jumpItem.setPosition(1, 5);
+
 
         mapSprite = new Sprite(new Texture(Gdx.files.internal("upjs.jpeg")));
         mapSprite.setScale(1,1f);
         mapSprite.setPosition(0, 0);
         mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
 
+//        ground = new Ground(0, Gdx.graphics.getHeight() / 5);
+//        ground.create(world);
     }
 
     @Override
@@ -120,6 +127,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         batch.begin();
+		matus.update();
+		controlPanel.update();
 
         renderSystem.update(batch);
         controlPanel.update();

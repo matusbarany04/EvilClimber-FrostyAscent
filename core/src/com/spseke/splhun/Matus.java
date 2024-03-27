@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
-    
+
 public class Matus extends Entity {
 
     SpriteBatch batch;
@@ -27,14 +28,14 @@ public class Matus extends Entity {
 
     Texture sideRight;
     Texture sideLeft;
-
+    Body body;
     PolygonShape shape;
 
     final int speed = 1;
 
     boolean directionR;
 
-    public Matus() {
+    public Matus(World world) {
 
     }
 
@@ -42,7 +43,7 @@ public class Matus extends Entity {
     public void setPosition(float x, float y) {
         sprite.setPosition(
                 x - sprite.getWidth()/2,
-                y  - sprite.getHeight()/2
+                y - sprite.getHeight()/2
         );
     }
 
@@ -54,13 +55,22 @@ public class Matus extends Entity {
 
     @Override
     public void create(World world) {
-        super.create(world);
         right = new Texture("matus-right.png");
         left = new Texture("matus-left.png");
         sideRight = new Texture("matus-move-right.png");
         sideLeft = new Texture("matus-move-left.png");
         sprite = new Sprite(right);
         batch = new SpriteBatch();
+        // Center the sprite in the top/middle of the screen
+//        sprite.setOrigin(
+//                 sprite.getWidth() / 2,
+//                sprite.getHeight() / 2
+//        );
+
+
+//        sprite.setPosition(
+//                Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
+//                Gdx.graphics.getHeight() / 2);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -73,7 +83,7 @@ public class Matus extends Entity {
 
          shape = new PolygonShape();
 
-        shape.setAsBox(1, 2.7f);
+        shape.setAsBox(1, 3);
 
         shape.dispose();
 
@@ -86,17 +96,10 @@ public class Matus extends Entity {
     }
 
     public void update() {
-
-        float aspectRatio = (float) right.getWidth() / right.getHeight();
-
-        sprite.setSize(6 * aspectRatio, 6 );
-
-        sprite.setOrigin(
-         sprite.getWidth() / 2,
-        sprite.getHeight() / 2
-        );
-
-
+//        sprite.setPosition(body.getPosition().x, body.getPosition().y);
+//        batch.begin();
+//        batch.draw(sprite, sprite.getX(), sprite.getY());
+//        batch.end();
     }
 
     @Override
@@ -105,7 +108,7 @@ public class Matus extends Entity {
     }
 
     public void stepUp() {
-        body.applyLinearImpulse(0, 100, body.getPosition().x, body.getPosition().y - speed, true);
+        body.setLinearVelocity(0F, 8F);
         directionR = !directionR;
         sprite.setTexture(directionR ? right : left);
     }
@@ -114,7 +117,9 @@ public class Matus extends Entity {
         sprite.setTexture(sideRight);
         delayedRun(() -> {
             sprite.setTexture(right);
-            body.applyLinearImpulse(-100, 0, body.getPosition().x, body.getPosition().y, true);
+           // body.setType(BodyDef.BodyType.KinematicBody);
+            body.setLinearVelocity(5F, 0F);
+            //body.applyLinearImpulse(-100, 0, body.getPosition().x, body.getPosition().y, true);
 
         }, 200);
     }
@@ -123,8 +128,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideLeft);
         delayedRun(() -> {
             sprite.setTexture(left);
-            body.applyLinearImpulse(100, 0, body.getPosition().x, body.getPosition().y, true);
-
+            body.setLinearVelocity(-5F, 0F);
         }, 200);
     }
 
