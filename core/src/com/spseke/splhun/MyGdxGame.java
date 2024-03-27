@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -74,7 +75,12 @@ public class MyGdxGame extends ApplicationAdapter {
         upjs.create(world);
 
 
+        ground = new Ground(0,-11);
+        ground.create(world);
+
         matus = new Matus();
+        matus.create(world);
+
         controlPanel = new ControlPanel();
 		controlPanel.onClickButtonUp(matus::stepUp);
 		controlPanel.onClickButtonRight(matus::stepRight);
@@ -85,7 +91,6 @@ public class MyGdxGame extends ApplicationAdapter {
                 0.5f,
                 -5,
                 1);
-
         ball.create(world);
 
         ball2 = new Ball(
@@ -95,10 +100,8 @@ public class MyGdxGame extends ApplicationAdapter {
         ball2.setDensity(1);
         ball2.create(world);
 
-        matus.create(world);
 
-        ground = new Ground(0,0);
-        ground.create(world);
+
 
 
     }
@@ -106,6 +109,7 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void render() {
         camera.update();
+
         batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -115,10 +119,8 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.begin();
 
         renderSystem.update(batch);
-        controlPanel.update();
-
         batch.end();
-
+        controlPanel.update();
 
         debugRenderer.render(world, camera.combined);
 

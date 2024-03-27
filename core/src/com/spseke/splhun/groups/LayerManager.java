@@ -4,6 +4,7 @@ import com.spseke.splhun.Entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class LayerManager {
 
@@ -28,6 +29,7 @@ public class LayerManager {
             removeEntity(entity);
         }
         layerObjects.get(layer.ordinal()).add(entity);
+        allObjects.put(entity, layer);
     }
 
     public static void removeEntity(Entity entity){
@@ -46,7 +48,9 @@ public class LayerManager {
         return layerObjects;
     }
 
-
+    public static Set<Entity> getAllEntities() {
+        return allObjects.keySet();
+    }
 
     //TODO handle removing entities
 

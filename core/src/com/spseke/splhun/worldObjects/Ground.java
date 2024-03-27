@@ -31,17 +31,20 @@ public class Ground extends Entity {
     public Ground() {
         this.x = 0;
         this.y = 0;
+
+        configureLayer(Layers.BACKGROUND1);
     }
     public Ground(int x, int y) {
         this.x = x;
         this.y = y;
 
+        configureLayer(Layers.BACKGROUND1);
     }
 
     @Override
     public void create(World world) {
         super.create(world);
-        texture = new Texture("matus-right.png");
+        texture = new Texture("upjs_ground.jpeg");
         sprite = new Sprite(texture);
         sprite.setTexture(texture);
 
@@ -57,13 +60,14 @@ public class Ground extends Entity {
         shape.setAsBox(width, height);
 
 
-        shape.dispose();
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
         fixtureDef.friction = 1f;
         fixtureDef.restitution = 1f;
+
+        shape.dispose();
 
         body.createFixture(fixtureDef);
 
@@ -87,7 +91,7 @@ public class Ground extends Entity {
 //        System.out.println(aspectRatio);
 //        System.out.println(sprite.getWidth() + "width");
 
-        sprite.setSize(50,50);
+        sprite.setSize(width,height*2);
 
         sprite.setOrigin(
                 sprite.getWidth() / 2,
