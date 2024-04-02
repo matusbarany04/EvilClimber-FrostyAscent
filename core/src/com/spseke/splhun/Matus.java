@@ -69,7 +69,8 @@ public class Matus extends Entity {
         // Create a body in the world using our definition
         body = world.createBody(bodyDef);
 
-         shape = new PolygonShape();
+        shape = new PolygonShape();
+        body.setFixedRotation(true);
 
         shape.setAsBox(1, 2.7f);
 
@@ -77,7 +78,8 @@ public class Matus extends Entity {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 2;
+        fixtureDef.density = 1;
+        fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
         body.setUserData(this);
@@ -103,7 +105,7 @@ public class Matus extends Entity {
     }
 
     public void stepUp() {
-        body.applyLinearImpulse(0, 100, body.getPosition().x, body.getPosition().y - speed, true);
+        body.applyLinearImpulse(0, 30, body.getPosition().x, body.getPosition().y - speed, true);
         directionR = !directionR;
         sprite.setTexture(directionR ? right : left);
     }
@@ -112,7 +114,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideRight);
         delayedRun(() -> {
             sprite.setTexture(right);
-            body.applyLinearImpulse(-100, 0, body.getPosition().x, body.getPosition().y, true);
+            body.applyLinearImpulse(30, 0, body.getPosition().x, body.getPosition().y, true);
 
         }, 200);
     }
@@ -121,7 +123,7 @@ public class Matus extends Entity {
         sprite.setTexture(sideLeft);
         delayedRun(() -> {
             sprite.setTexture(left);
-            body.applyLinearImpulse(100, 0, body.getPosition().x, body.getPosition().y, true);
+            body.applyLinearImpulse(-30, 0, body.getPosition().x, body.getPosition().y, true);
 
         }, 200);
     }

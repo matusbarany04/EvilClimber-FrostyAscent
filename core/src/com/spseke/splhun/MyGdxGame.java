@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
+import com.spseke.splhun.worldObjects.JumpItem;
 import com.spseke.splhun.worldObjects.UPJS;
 
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
     static final int WORLD_WIDTH = 100;
     static final int WORLD_HEIGHT = 100;
+
+    public final float[] JUMP_ITEM_POSITIONS = {-10.5f, -5.5f, 0, 5.5f, 10.5f};
 
 	ControlPanel controlPanel;
 	Matus matus;
@@ -100,8 +103,11 @@ public class MyGdxGame extends ApplicationAdapter {
         ball2.setDensity(1);
         ball2.create(world);
 
-
-
+        for(int i = 0; i < JUMP_ITEM_POSITIONS.length; i++) {
+            JumpItem jumpItem = new JumpItem();
+            jumpItem.setPosition(JUMP_ITEM_POSITIONS[i], -7);
+            jumpItem.create(world);
+        }
 
 
     }
