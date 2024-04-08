@@ -1,5 +1,6 @@
 package com.spseke.splhun.worldObjects;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,7 +15,6 @@ import com.spseke.splhun.groups.Layers;
 import org.w3c.dom.Text;
 
 public class UPJS extends Entity {
-
 
     Sprite sprite;
     Texture texture;
@@ -78,6 +78,7 @@ public class UPJS extends Entity {
 
     @Override
     public void update() {
+
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
 //        * aspectRatio
         sprite.setSize(50 , 50 / aspectRatio);

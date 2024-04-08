@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 
 	ControlPanel controlPanel;
 	Matus matus;
-    UPJS upjs;
+    ArrayList<UPJS> upjs= new ArrayList<>();
 
     @Override
     public void show() {
@@ -60,9 +60,9 @@ public class GameScreen implements Screen {
 
         world = new World(new Vector2(0, -10f), true);
         renderSystem = new RenderSystem(world, camera);
-
-        upjs = new UPJS(-25,-10,50,40);
-        upjs.create(world);
+        UPJS firstFloor = new UPJS(-25,-10,50,40);
+        firstFloor.create(world);
+        upjs.add(firstFloor);
 
 
         ground = new Ground(0,-11);
@@ -96,13 +96,16 @@ public class GameScreen implements Screen {
             jumpItem.create(world);
         }
 
+    }
+
+    public void updateUpjsBuilding(){
 
     }
 
     @Override
     public void render(float delta) {
         camera.update();
-
+        camera.translate(0,0.01f,0);
         batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -118,6 +121,7 @@ public class GameScreen implements Screen {
         debugRenderer.render(world, camera.combined);
 
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+
     }
 
     @Override

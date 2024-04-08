@@ -1,7 +1,9 @@
 package com.spseke.splhun;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -41,6 +43,13 @@ public abstract class Entity {
     public abstract Sprite getSprite();
 
     public void dispose(){}
+
+    public boolean isVisible(Camera camera){
+        Vector3 position = camera.position;
+        return camera.frustum.pointInFrustum(
+                new Vector3(body.getPosition(), 0)
+        );
+    }
 
 
     public Body getBody() {
