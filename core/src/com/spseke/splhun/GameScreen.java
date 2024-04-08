@@ -1,36 +1,23 @@
 package com.spseke.splhun;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
 import com.spseke.splhun.worldObjects.JumpItem;
 import com.spseke.splhun.worldObjects.UPJS;
 
-import java.util.ArrayList;
-
-public class MyGdxGame extends ApplicationAdapter {
+public class GameScreen implements Screen {
     public static SpriteBatch batch;
 
     public static World world;
@@ -58,7 +45,7 @@ public class MyGdxGame extends ApplicationAdapter {
     UPJS upjs;
 
     @Override
-    public void create() {
+    public void show() {
         LayerManager.init();
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -113,7 +100,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     @Override
-    public void render() {
+    public void render(float delta) {
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);
@@ -131,6 +118,26 @@ public class MyGdxGame extends ApplicationAdapter {
         debugRenderer.render(world, camera.combined);
 
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
