@@ -28,10 +28,10 @@ public class UPJSFloor extends Entity {
     };
 
     public static final LevelConfig[] LEVELS = {
-            new LevelConfig("LeftBadTrump.png", new int[]{8,3,4,5,7}),
-            new LevelConfig("SidesFIre.png", new int[]{0,1,2,3,4}),
-            new LevelConfig("MiddleBadFico.png", new int[]{5,6,7,8,1}),
-            new LevelConfig("MiddleBadFIre.png", new int[]{5,6,7,8,0,2})
+            new LevelConfig("SidesFire", new int[]{0,1,2,3,4}),
+            new LevelConfig("LeftBadTrump", new int[]{8,3,4,5,7}),
+            new LevelConfig("MiddleBadFico", new int[]{5,6,7,8,1}),
+            new LevelConfig("MiddleBadFIre", new int[]{5,6,7,8,0,2})
     };
 
     Sprite sprite;
@@ -42,9 +42,15 @@ public class UPJSFloor extends Entity {
     float x = 0;
     float y = 0;
 
-    static  final Random random = new Random();
+    private static int lastIndex = -1;
+    private static final Random random = new Random();
     private static LevelConfig getRandomConfig(){
-        return LEVELS[random.nextInt(LEVELS.length -1)];
+        int newTexture = UPJSFloor.lastIndex;
+        while(newTexture == lastIndex){
+            newTexture = random.nextInt(LEVELS.length);
+        }
+        lastIndex = newTexture;
+        return LEVELS[newTexture];
     }
 
 
@@ -54,7 +60,7 @@ public class UPJSFloor extends Entity {
         this.x = x;
         this.y = y;
         currentConfig = getRandomConfig();
-        texture = new Texture("upjs_part.jpeg");
+        texture = new Texture(currentConfig.getTexture() + "-pixelicious.png");
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
         this.height = width / aspectRatio;
         this.width = width;
@@ -64,10 +70,15 @@ public class UPJSFloor extends Entity {
 
 
     private void createWindows(World world, float moveX, float moveY){
-        for(int i = 0; i < JUMP_ITEM_POSITIONS.length; i++) {
+        int[] enabledJumpItems =  currentConfig.getEnabledJumpItems();
+        for(int i = 0; i < enabledJumpItems.length; i++) {
             JumpItem jumpItem = new JumpItem();
 
-            jumpItem.setPosition(JUMP_ITEM_POSITIONS[i].getX(),   getCenter().getY() + JUMP_ITEM_POSITIONS[i].getY() );
+            jumpItem.setPosition(
+                    JUMP_ITEM_POSITIONS[enabledJumpItems[i]].getX(),
+                    getCenter().getY() + JUMP_ITEM_POSITIONS[enabledJumpItems[i]].getY()
+            );
+
             jumpItem.create(world);
         }
     }
