@@ -51,7 +51,6 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         camera = new OrthographicCamera(50, 50 * (h / w));
 
-
 //      camera.position.set(camera.viewportWidth * 2f, camera.viewportHeight * 2f, 0);
 
 
@@ -60,8 +59,6 @@ public class GameScreen implements Screen {
 
         world = new World(new Vector2(0, -10f), true);
         renderSystem = new RenderSystem(world, camera);
-
-
 
         ground = new Ground(0,-11);
         ground.create(world);
@@ -90,7 +87,16 @@ public class GameScreen implements Screen {
 
         upjsBuilding = new UPJSBuilding(camera, world);
 
+        createWalls();
+    }
 
+    private void createWalls() {
+        JumpItem leftWall = new JumpItem(0.1f, camera.viewportHeight);
+        leftWall.setPosition(-camera.viewportWidth / 2, 0);
+        JumpItem rightWall = new JumpItem(0.1f, camera.viewportHeight);
+        rightWall.setPosition(camera.viewportWidth / 2 + 0.1f, 0);
+        leftWall.create(world);
+        rightWall.create(world);
     }
 
     @Override
@@ -98,7 +104,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         // this makes the world go down
-        camera.translate(0,0.05f,0);
+    //    camera.translate(0,0.05f,0);
         batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);

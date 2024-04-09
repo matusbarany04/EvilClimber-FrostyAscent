@@ -15,8 +15,24 @@ public class JumpItem extends Entity {
     float x;
     float y;
 
+    float width;
+    float height;
+
     Sprite sprite;
     Texture img;
+
+    public static final float DEFAULT_WIDTH = 2;
+    public static final float DEFAULT_HEIGHT = 0.3f;
+
+    public JumpItem() {
+        width = DEFAULT_WIDTH;
+        height = DEFAULT_HEIGHT;
+    }
+
+    public JumpItem(float width, float height) {
+        this.height = height;
+        this.width = width;
+    }
 
     @Override
     public void setPosition(float x, float y) {
@@ -46,7 +62,7 @@ public class JumpItem extends Entity {
         bodyDef.fixedRotation = true;
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(2, 0.3f);
+        shape.setAsBox(width, height);
         shape.dispose();
         Body body = world.createBody(bodyDef);
         FixtureDef fixtureDef = new FixtureDef();

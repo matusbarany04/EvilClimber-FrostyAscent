@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
-    
+
 public class Matus extends Entity {
 
     Sprite sprite;
@@ -40,8 +40,8 @@ public class Matus extends Entity {
     @Override
     public void setPosition(float x, float y) {
         sprite.setPosition(
-                x - sprite.getWidth()/2,
-                y  - sprite.getHeight()/2
+                x - sprite.getWidth() / 2,
+                y - sprite.getHeight() / 2
         );
     }
 
@@ -89,14 +89,12 @@ public class Matus extends Entity {
 
         float aspectRatio = (float) right.getWidth() / right.getHeight();
 
-        sprite.setSize(6 * aspectRatio, 6 );
+        sprite.setSize(6 * aspectRatio, 6);
 
         sprite.setOrigin(
-         sprite.getWidth() / 2,
-        sprite.getHeight() / 2
+                sprite.getWidth() / 2,
+                sprite.getHeight() / 2
         );
-
-
     }
 
     @Override
