@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
 
         controlPanel = new ControlPanel();
         controlPanel.onClickButtonUp(matus::stepUp);
-		controlPanel.onClickButtonRight(matus::stepRight);
+        controlPanel.onClickButtonRight(matus::stepRight);
 		controlPanel.onClickButtonLeft(matus::stepLeft);
 
 
@@ -98,7 +98,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         // this makes the world go down
-        camera.translate(0,0.01f,0);
+//        camera.translate(0,0.01f,0);
         batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
