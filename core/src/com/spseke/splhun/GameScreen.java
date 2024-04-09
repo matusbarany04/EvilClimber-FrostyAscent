@@ -15,7 +15,8 @@ import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.worldObjects.Ball;
 import com.spseke.splhun.worldObjects.Ground;
 import com.spseke.splhun.worldObjects.JumpItem;
-import com.spseke.splhun.worldObjects.UPJS;
+import com.spseke.splhun.worldObjects.UPJSBuilding;
+import com.spseke.splhun.worldObjects.UPJSFloor;
 
 public class GameScreen implements Screen {
     public static SpriteBatch batch;
@@ -33,16 +34,15 @@ public class GameScreen implements Screen {
 
 
     RenderSystem renderSystem;
-
+    UPJSBuilding upjsBuilding;
 
     static final int WORLD_WIDTH = 100;
     static final int WORLD_HEIGHT = 100;
 
-    public final float[] JUMP_ITEM_POSITIONS = {-10.5f, -5.5f, 0, 5.5f, 10.5f};
 
 	ControlPanel controlPanel;
 	Matus matus;
-    ArrayList<UPJS> upjs= new ArrayList<>();
+
 
     @Override
     public void show() {
@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(50, 50 * (h / w));
 
 
-//        camera.position.set(camera.viewportWidth * 2f, camera.viewportHeight * 2f, 0);
+//      camera.position.set(camera.viewportWidth * 2f, camera.viewportHeight * 2f, 0);
 
 
         debugRenderer = new Box2DDebugRenderer();
@@ -60,9 +60,7 @@ public class GameScreen implements Screen {
 
         world = new World(new Vector2(0, -10f), true);
         renderSystem = new RenderSystem(world, camera);
-        UPJS firstFloor = new UPJS(-25,-10,50,40);
-        firstFloor.create(world);
-        upjs.add(firstFloor);
+
 
 
         ground = new Ground(0,-11);
@@ -72,7 +70,7 @@ public class GameScreen implements Screen {
         matus.create(world);
 
         controlPanel = new ControlPanel();
-		controlPanel.onClickButtonUp(matus::stepUp);
+        controlPanel.onClickButtonUp(matus::stepUp);
 		controlPanel.onClickButtonRight(matus::stepRight);
 		controlPanel.onClickButtonLeft(matus::stepLeft);
 
@@ -90,21 +88,16 @@ public class GameScreen implements Screen {
         ball2.setDensity(1);
         ball2.create(world);
 
-        for(int i = 0; i < JUMP_ITEM_POSITIONS.length; i++) {
-            JumpItem jumpItem = new JumpItem();
-            jumpItem.setPosition(JUMP_ITEM_POSITIONS[i], -7);
-            jumpItem.create(world);
-        }
+        upjsBuilding = new UPJSBuilding(camera, world);
 
-    }
-
-    public void updateUpjsBuilding(){
 
     }
 
     @Override
     public void render(float delta) {
         camera.update();
+
+        // this makes the world go down
         camera.translate(0,0.01f,0);
         batch.setProjectionMatrix(camera.combined);
 
@@ -121,7 +114,7 @@ public class GameScreen implements Screen {
         debugRenderer.render(world, camera.combined);
 
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
-
+        upjsBuilding.update();
     }
 
     @Override

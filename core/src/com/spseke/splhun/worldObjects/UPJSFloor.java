@@ -1,37 +1,48 @@
 package com.spseke.splhun.worldObjects;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
+import com.spseke.splhun.Point;
 import com.spseke.splhun.groups.Layers;
 
-import org.w3c.dom.Text;
+public class UPJSFloor extends Entity {
 
-public class UPJS extends Entity {
+    public final float[] JUMP_ITEM_POSITIONS = {-10.5f, -5.5f, 0, 5.5f, 10.5f};
 
     Sprite sprite;
     Texture texture;
 
-    int width = 0;
-    int height = 0;
+    float width = 0;
+    float height = 0;
     float x = 0;
     float y = 0;
 
 
-    public UPJS(float x , float y, int width, int height){
-        this.width = width;
+    public UPJSFloor(float x , float y, float width){
         this.x = x;
         this.y = y;
+        texture = new Texture("upjs_part.jpeg");
+        float aspectRatio = (float) texture.getWidth() / texture.getHeight();
+        this.height = width / aspectRatio;
+        this.width = width;
 
-        this.height = height;
         configureLayer(Layers.BACKGROUND1);
+    }
+
+
+    private void createWindows(World world, float moveX, float moveY){
+        for(int i = 0; i < JUMP_ITEM_POSITIONS.length; i++) {
+            JumpItem jumpItem = new JumpItem();
+
+
+            jumpItem.setPosition(JUMP_ITEM_POSITIONS[i],   getCenter().getY() -7 );
+            jumpItem.create(world);
+        }
     }
 
     @Override
@@ -52,9 +63,11 @@ public class UPJS extends Entity {
     @Override
     public void create(World world) {
         super.create(world);
-        texture = new Texture("upjs_part.jpeg");
         sprite = new Sprite(texture);
 
+
+        // TODO change to camera movement + ujps pos
+        createWindows(world, 0,0);
 
 
         BodyDef bodyDef = new BodyDef();
@@ -63,6 +76,7 @@ public class UPJS extends Entity {
 
          body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
+
 //        shape.setAsBox(0, 0); // pozor rozbije matusa
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -81,7 +95,9 @@ public class UPJS extends Entity {
 
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
 //        * aspectRatio
-        sprite.setSize(50 , 50 / aspectRatio);
+        sprite.setSize(width , width / aspectRatio);
+
+        height = (float ) width / aspectRatio;
 
         sprite.setOrigin(
                 sprite.getWidth() / 2,
@@ -90,8 +106,41 @@ public class UPJS extends Entity {
 
     }
 
+
+
     @Override
     public Sprite getSprite() {
         return sprite;
     }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public Point getDownRightPosition() {
+        return new Point(x + width,y );
+    }
+
+    public Point getDownLeftPosition() {
+        return new Point(x ,y );
+    }
+
+
+    public Point getUpLeftPosition() {
+        return new Point(x,y + height);
+    }
+
+    public Point getUpRightPosition() {
+        return new Point(x + width, y + height);
+    }
+
+    public Point getCenter(){
+        return  new Point(x + width/2 , y + height/2);
+    }
+
+
 }

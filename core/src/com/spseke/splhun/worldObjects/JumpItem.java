@@ -11,24 +11,37 @@ import com.spseke.splhun.Entity;
 
 public class JumpItem extends Entity {
 
-    Sprite sprite;
 
+    float x;
+    float y;
+
+    Sprite sprite;
+    Texture img;
 
     @Override
     public void setPosition(float x, float y) {
         bodyDef.position.set(x, y);
+        this.x = x;
+        this.y = y;
+        if(sprite != null){
+            sprite.setPosition(
+                    x ,
+                    y
+            );
+        }
+
     }
 
     @Override
     public void setRotation(float v) {
-
+        sprite.setRotation(v);
     }
 
     @Override
     public void create(World world) {
-        Texture img = new Texture("python.png");
+        img = new Texture("upjs_part.jpeg");
         sprite = new Sprite(img);
-        sprite.setSize(5, 5);
+        sprite.setSize(500, 500);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.fixedRotation = true;
 
@@ -46,6 +59,17 @@ public class JumpItem extends Entity {
     @Override
     public void update() {
 
+        float aspectRatio = (float) img.getWidth()
+                / img.getHeight();
+
+        sprite.setSize(img.getWidth() ,
+                img.getWidth() / aspectRatio);
+
+
+        sprite.setOrigin(
+                sprite.getWidth() / 2,
+                sprite.getHeight() / 2
+        );
     }
 
     @Override
