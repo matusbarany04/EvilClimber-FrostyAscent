@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
+import com.spseke.splhun.groups.LayerManager;
 
 public class Ball extends Entity {
 
@@ -95,5 +96,6 @@ public class Ball extends Entity {
     @Override
     public void dispose() {
         circle.dispose();
+        LayerManager.removeEntity(this);
     }
 }

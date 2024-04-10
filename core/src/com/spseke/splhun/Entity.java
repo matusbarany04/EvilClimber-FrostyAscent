@@ -42,7 +42,9 @@ public abstract class Entity {
 
     public abstract Sprite getSprite();
 
-    public void dispose(){}
+    public void dispose(){
+        LayerManager.removeEntity(this);
+    }
 
     public boolean isVisible(Camera camera){
         Vector3 position = camera.position;

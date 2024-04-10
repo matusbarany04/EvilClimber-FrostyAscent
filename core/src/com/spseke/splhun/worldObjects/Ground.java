@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
+import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.groups.Layers;
 
 public class Ground extends Entity {
@@ -95,6 +96,7 @@ public class Ground extends Entity {
 
     public void dispose() {
         texture.dispose();
+        LayerManager.removeEntity(this);
     }
 
 

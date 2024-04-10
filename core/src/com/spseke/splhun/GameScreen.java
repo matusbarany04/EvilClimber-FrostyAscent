@@ -1,15 +1,19 @@
 package com.spseke.splhun;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.spseke.splhun.groups.LayerManager;
 import com.spseke.splhun.worldObjects.Ball;
@@ -106,13 +110,15 @@ public class GameScreen implements Screen {
         camera.translate(0,0.05f,0);
         batch.setProjectionMatrix(camera.combined);
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         batch.begin();
 
         renderSystem.update(batch);
+
+        if (matus.getSprite().getY() > -50 && matus.getSprite().getY() + matus.getSprite().getHeight() < camera.position.y - camera.viewportHeight / 2) {
+            gameOver();
+        }
+
         batch.end();
         controlPanel.update();
 
@@ -120,6 +126,33 @@ public class GameScreen implements Screen {
 
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         upjsBuilding.update();
+    }
+
+    public void gameOver() {
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.fontColor = Color.WHITE; // Set the drawable you want to use
+        BitmapFont font = new BitmapFont();
+        font.getData().setScale(0.5f);
+        style.font = font;
+        Label label = new Label("GAME OVER", style);
+        label.setPosition(-label.getWidth() / 2, camera.position.y - label.getHeight() / 2);
+        label.draw(batch, 1);
+        handleTouch();
+    }
+
+    private void handleTouch() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                Gdx.input.setInputProcessor(null);
+                dispose();
+                camera.position.y = 0;
+                show();
+                return true;
+            }
+
+        });
     }
 
     @Override
@@ -144,7 +177,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        world.dispose();
+        batch.dispose();
         ground.dispose();
         ball.dispose();
         ball2.dispose();
