@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
+import com.spseke.splhun.Point;
 
 public class JumpItem extends Entity {
 
@@ -20,6 +21,8 @@ public class JumpItem extends Entity {
 
     Sprite sprite;
     Texture img;
+
+    boolean enabled = true;
 
     public static final float DEFAULT_WIDTH = 2;
     public static final float DEFAULT_HEIGHT = 0.3f;
@@ -48,6 +51,13 @@ public class JumpItem extends Entity {
 
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        body.setActive(enabled);
+    }
+
+
+
     @Override
     public void setRotation(float v) {
         sprite.setRotation(v);
@@ -64,7 +74,7 @@ public class JumpItem extends Entity {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width, height);
         shape.dispose();
-        Body body = world.createBody(bodyDef);
+        body = world.createBody(bodyDef);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
 
@@ -87,6 +97,30 @@ public class JumpItem extends Entity {
                 sprite.getHeight() / 2
         );
     }
+
+
+    public Point getPosition(){
+        return new Point(x,y);
+    }
+
+
+    public Point getDownRightPosition() {
+        return new Point(x + width,y );
+    }
+
+    public Point getDownLeftPosition() {
+        return new Point(x,y );
+    }
+
+
+    public Point getUpLeftPosition() {
+        return new Point(x - width/2,y + height/2);
+    }
+
+    public Point getUpRightPosition() {
+        return new Point(x + width, y + height);
+    }
+
 
     @Override
     public Sprite getSprite() {

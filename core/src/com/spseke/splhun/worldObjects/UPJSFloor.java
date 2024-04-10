@@ -8,9 +8,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spseke.splhun.Entity;
 import com.spseke.splhun.LevelConfig;
+import com.spseke.splhun.Matus;
 import com.spseke.splhun.Point;
 import com.spseke.splhun.groups.Layers;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class UPJSFloor extends Entity {
@@ -42,6 +44,8 @@ public class UPJSFloor extends Entity {
     float x = 0;
     float y = 0;
 
+    ArrayList<JumpItem> jumpItems;
+
     private static int lastIndex = -1;
     private static final Random random = new Random();
     private static LevelConfig getRandomConfig(){
@@ -53,17 +57,21 @@ public class UPJSFloor extends Entity {
         return LEVELS[newTexture];
     }
 
+    Matus matus;
 
     LevelConfig currentConfig;
 
-    public UPJSFloor(float x , float y, float width){
+    public UPJSFloor(float x , float y, float width, Matus matus){
         this.x = x;
         this.y = y;
+        this.matus = matus;
         currentConfig = getRandomConfig();
         texture = new Texture(currentConfig.getTexture() + "-pixelicious.png");
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
         this.height = width / aspectRatio;
         this.width = width;
+
+        jumpItems = new ArrayList<>();
 
         configureLayer(Layers.BACKGROUND1);
     }
@@ -79,6 +87,7 @@ public class UPJSFloor extends Entity {
                     getCenter().getY() + JUMP_ITEM_POSITIONS[enabledJumpItems[i]].getY()
             );
 
+            jumpItems.add(jumpItem);
             jumpItem.create(world);
         }
     }
@@ -150,6 +159,10 @@ public class UPJSFloor extends Entity {
                 sprite.getWidth() / 2,
                 sprite.getHeight() / 2
         );
+
+        for (JumpItem item: jumpItems) {
+            item.setEnabled(item.getUpLeftPosition().getY() - 0.5f <= matus.getDownLeftPosition().getY());
+        }
 
     }
 

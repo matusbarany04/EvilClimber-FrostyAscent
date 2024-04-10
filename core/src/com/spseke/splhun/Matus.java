@@ -33,12 +33,21 @@ public class Matus extends Entity {
 
     boolean directionR;
 
-    public Matus() {
+    float height = 2.7f;
 
+    float width = 1f;
+
+    public Matus() {
     }
+
+
+    float x;
+    float y;
 
     @Override
     public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
         sprite.setPosition(
                 x - sprite.getWidth() / 2,
                 y - sprite.getHeight() / 2
@@ -72,7 +81,7 @@ public class Matus extends Entity {
         shape = new PolygonShape();
         body.setFixedRotation(true);
 
-        shape.setAsBox(1, 2.7f);
+        shape.setAsBox( width, height);
 
         shape.dispose();
 
@@ -80,6 +89,7 @@ public class Matus extends Entity {
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
         fixtureDef.restitution = 0.5f;
+
 
         body.createFixture(fixtureDef);
         body.setUserData(this);
@@ -125,6 +135,31 @@ public class Matus extends Entity {
 
         }, 200);
     }
+
+
+
+    public Point getPosition(){
+        return new Point(x,y);
+    }
+
+    public Point getDownRightPosition() {
+        return new Point(x + sprite.getWidth() / 2,y - sprite.getHeight() / 2 );
+    }
+
+    public Point getDownLeftPosition() {
+        return new Point(x - sprite.getWidth() / 2 ,y -  sprite.getHeight() / 2  );
+    }
+
+
+    public Point getUpLeftPosition() {
+        return new Point(x- sprite.getWidth() / 2,y  + sprite.getHeight() / 2);
+    }
+
+    public Point getUpRightPosition() {
+        return new Point(x + sprite.getWidth() / 2, y + sprite.getHeight() / 2);
+    }
+
+
 
     private void delayedRun(Runnable runnable, int millis) {
         Timer timer = new java.util.Timer();
