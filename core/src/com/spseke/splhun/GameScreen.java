@@ -72,13 +72,13 @@ public class GameScreen implements Screen {
 
 
         ball = new Ball(
-                0.5f,
+                2f,
                 -5,
                 1);
         ball.create(world);
 
         ball2 = new Ball(
-                -0,
+                -3,
                 20,
                 1);
         ball2.setDensity(1);
@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         // this makes the world go down
-    //    camera.translate(0,0.05f,0);
+        camera.translate(0,0.05f,0);
         batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);

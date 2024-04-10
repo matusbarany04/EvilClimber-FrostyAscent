@@ -25,7 +25,17 @@ public class UPJSBuilding {
         init();
     }
 
+    float startHeight = 0;
+
     private void init(){
+        Point point = new Point(0,-10);
+        UPJSEntrance entrance = new UPJSEntrance(
+                point.getX() -25,
+                point.getY(),
+                50,matus);
+
+        entrance.create(world);
+        startHeight = entrance.getHeight();
         makeNewFloors();
     }
 
@@ -33,11 +43,13 @@ public class UPJSBuilding {
         Point pointMiddleGround;
         if(upjs.isEmpty()){
             pointMiddleGround = new Point(0,-10);
+            pointMiddleGround.addY(startHeight);
         }else {
             Point downLeft = upjs.get(upjs.size() -1).getUpLeftPosition();
             Point downRight= upjs.get(upjs.size() -1).getUpRightPosition();
             pointMiddleGround = Point.getMiddlePoint(downLeft, downRight);
         }
+
 
         // while we are in camera we add more buildings
         while (pointMiddleGround.isInCameraView(camera)){
@@ -51,8 +63,6 @@ public class UPJSBuilding {
 
             upjs.add(floor);
             floor.create(world);
-
-
         }
 
     }
