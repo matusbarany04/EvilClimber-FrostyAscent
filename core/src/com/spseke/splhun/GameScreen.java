@@ -86,25 +86,16 @@ public class GameScreen implements Screen {
         ball2.create(world);
 
         upjsBuilding = new UPJSBuilding(camera, world);
-
-        createWalls();
     }
 
-    private void createWalls() {
-        JumpItem leftWall = new JumpItem(0.1f, camera.viewportHeight);
-        leftWall.setPosition(-camera.viewportWidth / 2, 0);
-        JumpItem rightWall = new JumpItem(0.1f, camera.viewportHeight);
-        rightWall.setPosition(camera.viewportWidth / 2 + 0.1f, 0);
-        leftWall.create(world);
-        rightWall.create(world);
-    }
+
 
     @Override
     public void render(float delta) {
         camera.update();
 
         // this makes the world go down
-    //    camera.translate(0,0.05f,0);
+        camera.translate(0,0.05f,0);
         batch.setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);

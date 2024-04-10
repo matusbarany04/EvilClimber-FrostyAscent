@@ -83,6 +83,15 @@ public class UPJSFloor extends Entity {
         }
     }
 
+    private void createWalls(World world) {
+        JumpItem leftWall = new JumpItem(0.1f, height);
+        leftWall.setPosition(-width / 2 - 0.1f, y);
+        JumpItem rightWall = new JumpItem(0.1f, height);
+        rightWall.setPosition(width / 2 + 0.2f, y);
+        leftWall.create(world);
+        rightWall.create(world);
+    }
+
     @Override
     public void setPosition(float x, float y) {
         this.x = x;
@@ -106,7 +115,7 @@ public class UPJSFloor extends Entity {
 
         // TODO change to camera movement + ujps pos
         createWindows(world, 0,0);
-
+        createWalls(world);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -133,7 +142,7 @@ public class UPJSFloor extends Entity {
 
         float aspectRatio = (float) texture.getWidth() / texture.getHeight();
 //        * aspectRatio
-        sprite.setSize(width , width / aspectRatio);
+        sprite.setSize(width, width / aspectRatio);
 
         height = (float ) width / aspectRatio;
 
