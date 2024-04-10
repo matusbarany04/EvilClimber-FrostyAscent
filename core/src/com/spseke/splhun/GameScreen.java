@@ -84,7 +84,7 @@ public class GameScreen implements Screen {
         ball2.setDensity(1);
         ball2.create(world);
 
-        upjsBuilding = new UPJSBuilding(camera, world);
+        upjsBuilding = new UPJSBuilding(camera, world, matus);
 
         createWalls();
     }
