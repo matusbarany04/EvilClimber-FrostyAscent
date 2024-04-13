@@ -21,13 +21,13 @@ import sun.jvm.hotspot.runtime.DeadlockDetector;
 public class UPJSFloor extends Entity {
 
     public final Point[] JUMP_ITEM_POSITIONS = {
-            new Point(-10.5f, -7f), // Middle abs left          0
-            new Point(-5.5f, -7f),  // Middle little left       1
-            new Point(0f, -7f),     // Middle middle            2
-            new Point(5.5f, -7f),   // Middle little right      3
-            new Point(10.5f, -7f),  // Middle abs right         4
-            new Point(19.2f, -7f),  // Right side down          5
-            new Point(-19.2f, -7f), // Left side down           6
+            new Point(-10.5f, -4.5f), // Middle abs left          0
+            new Point(-5.5f, -4.5f),  // Middle little left       1
+            new Point(0f, -4.5f),     // Middle middle            2
+            new Point(5.5f, -4.5f),   // Middle little right      3
+            new Point(10.5f, -4.5f),  // Middle abs right         4
+            new Point(19.2f, -4.5f),  // Right side down          5
+            new Point(-19.2f, -4.5f), // Left side down           6
             new Point(-19.2f, 1f),  // Left side up             7
             new Point(19.2f, 1f),   // Right side up            8
     };
@@ -49,6 +49,10 @@ public class UPJSFloor extends Entity {
                     {4.6f, -5f, 6f, 1},
             }),
             new LevelConfig("MiddleBadFIre", new int[]{5,6,7,8,0,2} , new float[][]{
+                    {-5.2f, -3f, 1.2f, 2},
+                    {+5.2f, -3f, 1.2f, 2},
+            }),
+            new LevelConfig("MiddleBrokenWindows", new int[]{0,1,2,3,4} , new float[][]{
                     {-5.2f, -3f, 1.2f, 2},
                     {+5.2f, -3f, 1.2f, 2},
             })
