@@ -30,11 +30,13 @@ public class DeathItem extends Entity implements ContactListener {
     public static final float DEFAULT_HEIGHT = 0.8f;
 
     public DeathItem() {
+        setClassname("deadly");
         width = DEFAULT_WIDTH;
         height = DEFAULT_HEIGHT;
     }
 
     public DeathItem(float x, float y, float width, float height) {
+        setClassname("deadly");
         this.height = height;
         this.width = width;
         this.x = x;
@@ -138,7 +140,18 @@ public class DeathItem extends Entity implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+        Entity entity = (Entity) contact.getFixtureB().getBody().getUserData();
+        Entity entity2 = (Entity) contact.getFixtureA().getBody().getUserData();
 
+        if(entity != null && entity2 != null ){
+            if(entity2.getClassname().equals("matus") && entity.getClassname().equals("deadly")){
+                GameScreen.touched = true;
+            }
+
+            if(entity2.getClassname().equals("deadly") && entity.getClassname().equals("matus")){
+                GameScreen.touched = true;
+            }
+        }
     }
 
     @Override

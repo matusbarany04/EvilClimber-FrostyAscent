@@ -38,6 +38,7 @@ public class Matus extends Entity {
     float width = 1f;
 
     public Matus() {
+        setClassname("matus");
     }
 
 
@@ -69,11 +70,11 @@ public class Matus extends Entity {
         sideLeft = new Texture("matus-move-left.png");
         sprite = new Sprite(right);
 
-        BodyDef bodyDef = new BodyDef();
+        bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         // Set our body to the same position as our sprite
-        bodyDef.position.set(0, 0);
+        bodyDef.position.set(0, -5f);
 
         // Create a body in the world using our definition
         body = world.createBody(bodyDef);

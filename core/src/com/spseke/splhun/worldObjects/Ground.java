@@ -44,7 +44,7 @@ public class Ground extends Entity {
 
 
 
-        BodyDef bodyDef = new BodyDef();
+        bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x,y);
 

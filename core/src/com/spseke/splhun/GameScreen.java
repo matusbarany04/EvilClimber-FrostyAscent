@@ -1,5 +1,6 @@
 package com.spseke.splhun;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
@@ -34,9 +35,10 @@ public class GameScreen implements Screen {
     Ground ground;
     Box2DDebugRenderer debugRenderer;
 
-    Camera camera;
+    public static Camera camera;
 
 
+    public static boolean touched = false;
     RenderSystem renderSystem;
     UPJSBuilding upjsBuilding;
 
@@ -107,7 +109,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         // this makes the world go down
-        camera.translate(0,0.05f,0);
+        camera.translate(0,0.02f,0);
         batch.setProjectionMatrix(camera.combined);
 
 
@@ -115,7 +117,8 @@ public class GameScreen implements Screen {
 
         renderSystem.update(batch);
 
-        if (matus.getSprite().getY() > -50 && matus.getSprite().getY() + matus.getSprite().getHeight() < camera.position.y - camera.viewportHeight / 2) {
+        if (GameScreen.touched || matus.getSprite().getY() > -50 && matus.getSprite().getY() + matus.getSprite().getHeight() < camera.position.y - camera.viewportHeight / 2) {
+
             gameOver();
         }
 
@@ -141,10 +144,12 @@ public class GameScreen implements Screen {
     }
 
     private void handleTouch() {
+
         Gdx.input.setInputProcessor(new InputAdapter() {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                touched = false;
                 Gdx.input.setInputProcessor(null);
                 dispose();
                 camera.position.y = 0;

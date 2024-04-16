@@ -21,6 +21,15 @@ public abstract class Entity {
         return layer;
     }
 
+    private String classname = "general";
+
+    public String getClassname() {
+        return classname;
+    }
+
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
 
     public void configureLayer(Layers layer) {
         this.layer = layer;

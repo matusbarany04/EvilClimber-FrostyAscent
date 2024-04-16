@@ -53,7 +53,7 @@ public class Ball extends Entity {
         sprite.setTexture(img);
 
 
-        BodyDef bodyDef = new BodyDef();
+         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
 

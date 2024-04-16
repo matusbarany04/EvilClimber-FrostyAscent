@@ -116,7 +116,7 @@ public class UPJSEntrance  extends Entity {
             createWalls(world);
 
 
-            BodyDef bodyDef = new BodyDef();
+            bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(x, y);
 

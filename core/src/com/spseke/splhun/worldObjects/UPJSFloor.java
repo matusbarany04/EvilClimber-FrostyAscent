@@ -179,8 +179,8 @@ public class UPJSFloor extends Entity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        fixtureDef.friction = 1f;
-        fixtureDef.restitution = 1f;
+        fixtureDef.friction = 0.8f;
+        fixtureDef.restitution = 0.7f;
 
         body.createFixture(fixtureDef);
 
