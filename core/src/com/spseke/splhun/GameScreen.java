@@ -30,6 +30,8 @@ public class GameScreen implements Screen {
     Ball ball;
     Ball ball2;
 
+    int gameScore;
+
     public static Array<Fixture> bodies = new Array<>();
 
     Ground ground;
@@ -140,6 +142,11 @@ public class GameScreen implements Screen {
         Label label = new Label("GAME OVER", style);
         label.setPosition(-label.getWidth() / 2, camera.position.y - label.getHeight() / 2);
         label.draw(batch, 1);
+        if (gameScore == 0) gameScore = (int) camera.position.y;
+        font.getData().setScale(0.3f);
+        Label score = new Label(String.format("Skóre: %d", gameScore), style);
+        score.setPosition(-label.getWidth() / 2, camera.position.y + 3);
+        score.draw(batch, 1);
         handleTouch();
     }
 
@@ -153,6 +160,7 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(null);
                 dispose();
                 camera.position.y = 0;
+                gameScore = 0;
                 show();
                 return true;
             }
